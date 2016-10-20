@@ -154,7 +154,11 @@ public class SimulationController {
 		TransactionController cctrl;
 		cctrl = mCtrl.getTransactionController();
 		scp.setActive(SimulatorControlPanel.ACT_CUSTOMER, false);
-		cctrl.displayCustomerPanel();
+
+               
+                /* Added */
+                /* Start triggering Customer Panel after system startup. */
+                cctrl.PerformTransaction();
 	}
 
 	/**

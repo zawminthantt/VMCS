@@ -184,7 +184,7 @@ public class MachineryController {
 
 	/**
 	 * This method instructs the CashStore to issue a number of coins of a specific
-	 * denomination, and hen updates the MachinerySimulatorPanel&#46; It returns 
+	 * denomination, and then updates the MachinerySimulatorPanel&#46; It returns 
 	 * TRUE or FALSE to indiate whether the change issue was successful.
 	 * @param idx the index of the cash store item.
 	 * @param numOfCoins the number of coins to change.

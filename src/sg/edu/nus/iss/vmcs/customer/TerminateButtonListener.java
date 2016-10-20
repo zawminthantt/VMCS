@@ -31,6 +31,8 @@ public class TerminateButtonListener implements ActionListener{
 	 * This method performs actions in response to the terminate button being pressed.
 	 */
 	public void actionPerformed(ActionEvent ev){
-		txCtrl.cancelTransaction();
+
+                txCtrl.goNextState(new CancelState());/* This is for state transition. */
+                txCtrl.PerformTransaction();
 	}
 }//End of class TerminateButtonListener

@@ -44,17 +44,79 @@ public class TransactionController {
 	private int price=0;
 	/**Identifier of the selected drink.*/
 	private int selection=-1;
+        
+        /* Added */
+        private int drinkIdentifier;
+        private int tolalCoinReceieved;
+        
+        private static State state;
+        
+             
+         /* Get transaction object and initialize with IdleState at startup. */
+        // TransactionController transactionCtrl = TransactionController.setandgetTransactionControllerInstance(new IdleState());
 	
 	/**
 	 * This constructor creates an instance of the TransactionController.
 	 * @param mainCtrl the MainController.
 	 */
-	public TransactionController(MainController mainCtrl) {
-		this.mainCtrl = mainCtrl;
+         
+        /* Private Constructor prevents instiantiation from other classes. */
+        private TransactionController() {
+
 		dispenseCtrl=new DispenseController(this);
 		coinReceiver=new CoinReceiver(this);
 		changeGiver=new ChangeGiver(this);
+                                             
 	}
+
+       /**
+       * ContextHolder is loaded on the first execution of Context.getInstance() 
+       * or the first access to ContextHolder. instance , not before.
+       */
+       private static class TransactionControllerHolder{
+
+           private static final TransactionController instance = new TransactionController();
+
+       }
+
+       /* Get instance with initialized state. */
+       public static TransactionController setandgetTransactionControllerInstance(State state){
+          
+           TransactionControllerHolder.instance.setState(state);
+
+           return TransactionControllerHolder.instance;
+       }
+
+       /* Get instance.*/
+       public static TransactionController getTransactionControllerInstance(){
+
+           return TransactionControllerHolder.instance;
+       }
+
+       public void setState(State state){
+          this.state = state;		
+       }
+
+       public State getState(){
+          return state;
+       }
+
+       public  void PerformTransaction(){
+
+           state.doAction(this);
+       }
+
+       public void goNextState(State nextState){
+           this.state = nextState;       
+
+       } 
+              
+       public void setMainController(MainController mCtrl){
+           
+           mainCtrl = mCtrl;
+       }
+       
+       /************************************************************/      
 
 	/**
 	 * This method returns the MainController.
@@ -64,150 +126,39 @@ public class TransactionController {
 		return mainCtrl;
 	}
 
-	/**
-	 * This method displays and initialize the CustomerPanel.
-	 */
-	public void displayCustomerPanel() {
-		SimulatorControlPanel scp = mainCtrl.getSimulatorControlPanel();
-	    custPanel = new CustomerPanel((Frame) scp, this);
-		custPanel.display();
-		dispenseCtrl.updateDrinkPanel();
-		dispenseCtrl.allowSelection(true);
-		changeGiver.displayChangeStatus();
-		coinReceiver.setActive(false);
-	}
+
+        
+        /* Added */
+        public void setDrinkIdentifier(int drinkIdentifier){
+            
+            this.drinkIdentifier = drinkIdentifier;
+        }
+        
+        /* Added */
+        public int getDrinkIdentifier(){
+            
+            return this.drinkIdentifier;
+        }
+        /* Added */
+        public void setCoinReceived(int CoinReceieved){
+            
+            this.tolalCoinReceieved = CoinReceieved;
+        }
+        
+        /* Added */
+        public int getTotalCoinReceived(){
+            
+            return this.tolalCoinReceieved;
+        }
+        
 	
-	/**
-	 * This method will start the customer transaction&#46; It receives the identification
-	 * for the selected drink brand (item) from the Customer Panel&#46; The following
-	 * actions are performed in the method:
-	 * <br>
-	 * 1- The price of the selected item is obtained&#46;
-	 * <br>
-	 * 2- The Refund/ Change Tray Display is reset&#46;
-	 * <br>
-	 * 3- The Can Collection Box is reset&#46;
-	 * <br>
-	 * 4- The Drink Selection Box is deactivated to disallow the selection of further
-	 * drinks when the transaction is in progress&#46;
-	 * <br>
-	 * 5- The Coin Receiver will be instructed to start receiving the coins&#46;
-	 * @param drinkIdentifier the drink brand item identifier.
-	 */
-	public void startTransaction(int drinkIdentifier){
-		setSelection(drinkIdentifier);
-		StoreItem storeItem=mainCtrl.getStoreController().getStoreItem(Store.DRINK,drinkIdentifier);
-		DrinksBrand drinksBrand=(DrinksBrand)storeItem.getContent();
-		setPrice(drinksBrand.getPrice());
-		changeGiver.resetChange();
-		dispenseCtrl.ResetCan();
-		changeGiver.displayChangeStatus();
-		dispenseCtrl.allowSelection(false);
-		coinReceiver.startReceiver();
-		custPanel.setTerminateButtonActive(true);
-	}
+
 	
-	/**
-	 * This method processes the money received by the Coin Receiver during the progress
-	 * of a transaction&#46;  The following actions are performed during this method:
-	 * <br>
-	 * 1- The current total money inserted is obtained from the Coin Receiver&#46;
-	 * <br>
-	 * 2- If the received money is more than or equal to the price of the drink, 
-	 * method CompleteTransaction of the Transaction Controller is triggered&#46;
-	 * <br>
-	 * 3- If the received money is less than the price of the drink, the Coin Receiver
-	 * is instructed to continue receiving the coin&#46;
-	 * @param total the total money received&#46;
-	 */
-	public void processMoneyReceived(int total){
-		if(total>=price)
-			completeTransaction();
-		else{
-			coinReceiver.continueReceive();
-		}
-	}
+
 	
-	/**
-	 * This method is performed when the Transaction Controller is informed that coin
-	 * entry is complete and the money received is sufficient to dispense the drink.
-	 * The following actions are performed.
-	 * <br>
-	 * 1- Dispense the drink.
-	 * <br>
-	 * 2- Give change if necessary.
-	 * <br>
-	 * 3- Store the Coins that have been entered into the Cash Store.
-	 * <br>
-	 * 4- Reset the Drink Selection Box to allow further transactions.
-	 */
-	public void completeTransaction(){
-		System.out.println("CompleteTransaction: Begin");
-		dispenseCtrl.dispenseDrink(selection);
-		int totalMoneyInserted=coinReceiver.getTotalInserted();
-		int change=totalMoneyInserted-price;
-		if(change>0){
-			changeGiver.giveChange(change);
-		}
-		else{
-			getCustomerPanel().setChange(0);
-		}
-		coinReceiver.storeCash();
-		dispenseCtrl.allowSelection(true);
-		
-		refreshMachineryDisplay();
-		System.out.println("CompleteTransaction: End");
-	}
-	
-	/**
-	 * If the TransactionController is informed that a fault was discovered while
-	 * dispensing a drink, giving change or storing Coins, it will use this method
-	 * to deactivate the Drink Selection Box and instruct the CoinReceiver to refund the
-	 * money inserted by the customer.
-	 */
-	public void terminateFault(){
-		System.out.println("TerminateFault: Begin");
-		dispenseCtrl.allowSelection(false);
-		coinReceiver.refundCash();
-		refreshMachineryDisplay();
-		System.out.println("TerminateFault: End");
-	}
-	
-	/**
-	 * If the TransactionController receivers a request to terminate the current
-	 * transaction then following will occur:
-	 * <br>
-	 * 1- If there is no transaction in progress or coin input is completed then the 
-	 * CustomerPanel will be instructed to deactivate the DrinkSelectionBox&#46;
-	 * <br>
-	 * 2- If coin input is not yet complete, the CoinReceiver will be instructed to stop
-	 * coin input and refund the money entered so far&#46;
-	 * <br>
-	 * 3- The DrinkSelectionBox is then reset to allow further transactions&#46;
-	 */
-	public void terminateTransaction(){
-		System.out.println("TerminateTransaction: Begin");
-		dispenseCtrl.allowSelection(false);
-		coinReceiver.stopReceive();
-		coinReceiver.refundCash();
-		if(custPanel!=null){
-			custPanel.setTerminateButtonActive(false);
-		}
-		refreshMachineryDisplay();
-		System.out.println("TerminateTransaction: End");
-	}
-	
-	/**
-	 * This method will cancel an ongoing customer transaction.
-	 */
-	public void cancelTransaction(){
-		System.out.println("CancelTransaction: Begin");
-		coinReceiver.stopReceive();
-		coinReceiver.refundCash();
-		dispenseCtrl.allowSelection(true);
-		refreshMachineryDisplay();
-		System.out.println("CancelTransaction: End");
-	}
+
+
+
 	
 	/**
 	 * This method refreshes the CustomerPanel when maintainer logs-out.
@@ -297,6 +248,12 @@ public class TransactionController {
 		return selection;
 	}
 	
+        /*  Added */
+        public void setCustomerPanel(CustomerPanel custPanel){
+            
+            this.custPanel = custPanel;
+        }
+        
 	/**
 	 * This method returns the CustomerPanel.
 	 * @return the CustomerPanel.

@@ -10,6 +10,8 @@ package sg.edu.nus.iss.vmcs.maintenance;
 import java.awt.Frame;
 
 import sg.edu.nus.iss.vmcs.customer.CustomerPanel;
+import sg.edu.nus.iss.vmcs.customer.MaintenanceState;
+import sg.edu.nus.iss.vmcs.customer.TerminateState;
 import sg.edu.nus.iss.vmcs.machinery.MachineryController;
 import sg.edu.nus.iss.vmcs.store.CashStoreItem;
 import sg.edu.nus.iss.vmcs.store.DrinksBrand;
@@ -99,7 +101,12 @@ public class MaintenanceController {
 			MachineryController machctrl = mCtrl.getMachineryController();
 			machctrl.setDoorState(false);
 			//Terminate customer transaction
-			mCtrl.getTransactionController().terminateTransaction();
+
+                        
+                        /* Added */
+                        
+                        mCtrl.getTransactionController().goNextState(new TerminateState());/* This is for state transition. */
+                        mCtrl.getTransactionController().PerformTransaction();
 		}
 	}
 
@@ -237,8 +244,16 @@ public class MaintenanceController {
 			mCtrl.getSimulatorControlPanel().setActive(SimulatorControlPanel.ACT_CUSTOMER, true);
 		}
 		else{
-			mCtrl.getTransactionController().refreshCustomerPanel();
+                   
+                    mCtrl.getTransactionController().refreshCustomerPanel();
+                     
+                    /* Added */                  
+                    mCtrl.getTransactionController().goNextState(new MaintenanceState());/* This is for state transition. */
+                    mCtrl.getTransactionController().PerformTransaction();
 		}
+                 
+                
+                
 	}
 
 	/**

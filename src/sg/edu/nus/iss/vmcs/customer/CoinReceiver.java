@@ -89,7 +89,11 @@ public class CoinReceiver {
 			//int total=txCtrl.getCustomerPanel().addMoney(value);
 			txCtrl.getCustomerPanel().setTotalMoneyInserted(getTotalInserted());
 			txCtrl.getCustomerPanel().setChange("");
-			txCtrl.processMoneyReceived(getTotalInserted());
+			
+                     
+                        /* Added */
+                        txCtrl.setCoinReceived(getTotalInserted());
+                        txCtrl.PerformTransaction();
 		}
 	}
 
@@ -117,7 +121,11 @@ public class CoinReceiver {
 			txCtrl.getCustomerPanel().setTotalMoneyInserted(0);
 		}
 		catch(VMCSException ex){
-			txCtrl.terminateFault();
+                     
+                        /* Added */
+                        txCtrl.goNextState(new TerminateFaultState());/* This is for state transition. */
+                        txCtrl.PerformTransaction();
+                        
 			return false;
 		}
 		return true;

@@ -73,7 +73,11 @@ public class ChangeGiver {
 				txCtrl.getCustomerPanel().displayChangeStatus(true);
 		}
 		catch(VMCSException ex){
-			txCtrl.terminateFault();
+                      
+                        /* Added */
+                        txCtrl.goNextState(new TerminateFaultState());/* This is for state transition. */
+                        txCtrl.PerformTransaction();
+                        
 			return false;
 		}
 		return true;

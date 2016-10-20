@@ -7,7 +7,10 @@
  */
 package sg.edu.nus.iss.vmcs.system;
 
+import java.awt.Frame;
 import java.io.IOException;
+import sg.edu.nus.iss.vmcs.customer.CustomerPanel;
+import sg.edu.nus.iss.vmcs.customer.IdleState;
 
 import sg.edu.nus.iss.vmcs.customer.TransactionController;
 import sg.edu.nus.iss.vmcs.machinery.MachineryController;
@@ -73,7 +76,26 @@ public class MainController {
 			machineryCtrl = new MachineryController(this);
 			machineryCtrl.initialize();
 			maintenanceCtrl = new MaintenanceController(this);
-			txCtrl=new TransactionController(this);
+
+                        
+                        /****************** Added ****************/
+                        /* Get TransactionController as Singleton object. */
+                        txCtrl = TransactionController.setandgetTransactionControllerInstance(new IdleState());
+                        //TransactionController.setandgetTransactionControllerInstance(new IdleState());
+                                                                 
+                        /* Pass MainController object to TransactionController. */
+                        txCtrl.setMainController(this);
+                        //TransactionController.getTransactionControllerInstance().setMainController(this);
+                        
+                        SimulatorControlPanel scp = txCtrl.getMainController().getSimulatorControlPanel();
+                        //SimulatorControlPanel scp = TransactionController.getTransactionControllerInstance().getMainController().getSimulatorControlPanel();
+                        
+                        txCtrl.setCustomerPanel(new CustomerPanel((Frame) scp, txCtrl));
+                        //TransactionController.getTransactionControllerInstance().setCustomerPanel(new CustomerPanel((Frame) scp, TransactionController.getTransactionControllerInstance()));
+                        
+                                               
+                        /***************************************************/
+                        
 		} catch (IOException e) {
 			throw new VMCSException(
 				"MainController.initialize",
@@ -127,6 +149,7 @@ public class MainController {
 	 */
 	public TransactionController getTransactionController() {
 		return txCtrl;
+                //return TransactionController.getTransactionControllerInstance();
 	}
 
 	/**
