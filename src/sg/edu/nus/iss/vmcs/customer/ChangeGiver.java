@@ -32,6 +32,8 @@ import sg.edu.nus.iss.vmcs.util.VMCSException;
  */
 public class ChangeGiver {
 	private TransactionController txCtrl; 
+	
+	private AbstractDispenser dispenserChain;
 
 	/**
 	 * The constructor creates an instance of the object.
@@ -64,8 +66,11 @@ public class ChangeGiver {
 		MainController mainCtrl=txCtrl.getMainController();
 		StoreController storeCtrl=mainCtrl.getStoreController();
 		
-		AbstractDispenser dispenser = createDispenserChain(storeCtrl.getStoreItems(Store.CASH));
-		dispenser.dispense(changeRequired);
+		dispenserChain = createDispenserChain(storeCtrl.getStoreItems(Store.CASH));
+		
+		if (dispenserChain != null) {
+			dispenserChain.dispense(changeRequired);
+		}
 		
 		txCtrl.getCustomerPanel().setChange(changeRequired);
 		if (changeRequired > 0) {
@@ -78,7 +83,7 @@ public class ChangeGiver {
 		List<AbstractDispenser> allDispenseChain = new ArrayList<>();
 		for (StoreItem storeItem : storeItems) {
 			
-			AbstractDispenser dispenseChain = DispenserFactory.createDispenseChain(storeItem);
+			AbstractDispenser dispenseChain = DispenserFactory.createDispenser(storeItem);
 			System.out.println(storeItem.getContent().getName() + "\t" + storeItem.getQuantity());
 			allDispenseChain.add(dispenseChain);
 		}
@@ -90,7 +95,8 @@ public class ChangeGiver {
 				allDispenseChain.get(i).setNextChain(allDispenseChain.get(i+1));
 			}
 		}
-		return allDispenseChain.iterator().next();
+		
+		return allDispenseChain.size() > 0 ? allDispenseChain.iterator().next() : null;
 	}
 	
 	/**
