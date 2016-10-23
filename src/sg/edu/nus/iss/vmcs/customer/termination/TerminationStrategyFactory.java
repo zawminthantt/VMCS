@@ -16,7 +16,7 @@ public class TerminationStrategyFactory {
 		CUSTOMER_ACTION,
 		MAINTENER_ACTION,
 		DISPENSE_FAULT,
-		COIN_STORE_FAULT,
+		STORE_FAULT,
 		CHANGE_FAULT;
 	}
 	
@@ -35,7 +35,7 @@ public class TerminationStrategyFactory {
 				return new ChangeFaultTermination();
 			case DISPENSE_FAULT : 
 				return new DispenseFaultTermination();
-			case COIN_STORE_FAULT :
+			case STORE_FAULT :
 				//TODO create Store fault termination strategy.
 				return new DispenseFaultTermination();
 		}

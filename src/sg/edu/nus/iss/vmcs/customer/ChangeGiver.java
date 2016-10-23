@@ -7,6 +7,7 @@
  */
 package sg.edu.nus.iss.vmcs.customer;
 
+import sg.edu.nus.iss.vmcs.customer.termination.TerminationStrategyFactory.TerminationType;
 import sg.edu.nus.iss.vmcs.store.CashStoreItem;
 import sg.edu.nus.iss.vmcs.store.Coin;
 import sg.edu.nus.iss.vmcs.store.Store;
@@ -75,7 +76,7 @@ public class ChangeGiver {
 		catch(VMCSException ex){
                       
                         /* Added */
-                        txCtrl.goNextState(new TerminateFaultState());/* This is for state transition. */
+                        txCtrl.goNextState(new TerminateFaultState(TerminationType.CHANGE_FAULT));/* This is for state transition. */
                         txCtrl.PerformTransaction();
                         
 			return false;

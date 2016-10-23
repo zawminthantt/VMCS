@@ -7,6 +7,7 @@
  */
 package sg.edu.nus.iss.vmcs.customer;
 
+import sg.edu.nus.iss.vmcs.customer.termination.TerminationStrategyFactory.TerminationType;
 import sg.edu.nus.iss.vmcs.store.DrinksBrand;
 import sg.edu.nus.iss.vmcs.store.Store;
 import sg.edu.nus.iss.vmcs.store.StoreController;
@@ -123,7 +124,7 @@ public class DispenseController {
 		catch(VMCSException ex){
 
                         /* Added */
-                        txCtrl.goNextState(new TerminateFaultState());/* This is for state transition. */
+                        txCtrl.goNextState(new TerminateFaultState(TerminationType.DISPENSE_FAULT));/* This is for state transition. */
                         txCtrl.PerformTransaction();
                         
 			return false;

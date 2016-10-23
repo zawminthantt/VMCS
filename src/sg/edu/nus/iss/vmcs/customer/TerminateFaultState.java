@@ -5,8 +5,6 @@
  */
 package sg.edu.nus.iss.vmcs.customer;
 
-import jdk.nashorn.internal.ir.SetSplitState;
-import sg.edu.nus.iss.vmcs.customer.termination.TerminationStrategyFactory;
 import sg.edu.nus.iss.vmcs.customer.termination.TerminationStrategyFactory.TerminationType;
 
 /**
@@ -16,6 +14,12 @@ import sg.edu.nus.iss.vmcs.customer.termination.TerminationStrategyFactory.Termi
 public class TerminateFaultState extends AbstractTerminationState{
 
     Action actionPerformed;
+    private TerminationType type;
+    
+    public TerminateFaultState(TerminationType type) {
+		super();
+    	this.type = type;
+	}
     
     @Override
     public void doAction(TransactionController transactionCtrl) {
@@ -30,7 +34,7 @@ public class TerminateFaultState extends AbstractTerminationState{
         transactionCtrl.getCoinReceiver().refundCash();
         transactionCtrl.refreshMachineryDisplay();
         System.out.println("TerminateFault: End");*/
-        setStrategy(TerminationType.DISPENSE_FAULT);	// TODO changeGiver, dispense, coinReceiver
+        setStrategy(type);
         terminate();
                
          /* Set this to Action.done only when state-specific tasks are done. */

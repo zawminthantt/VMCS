@@ -9,6 +9,7 @@ package sg.edu.nus.iss.vmcs.customer;
 
 import java.util.ArrayList;
 
+import sg.edu.nus.iss.vmcs.customer.termination.TerminationStrategyFactory.TerminationType;
 import sg.edu.nus.iss.vmcs.machinery.MachineryController;
 import sg.edu.nus.iss.vmcs.store.CashStore;
 import sg.edu.nus.iss.vmcs.store.Coin;
@@ -123,7 +124,7 @@ public class CoinReceiver {
 		catch(VMCSException ex){
                      
                         /* Added */
-                        txCtrl.goNextState(new TerminateFaultState());/* This is for state transition. */
+                        txCtrl.goNextState(new TerminateFaultState(TerminationType.STORE_FAULT));/* This is for state transition. */
                         txCtrl.PerformTransaction();
                         
 			return false;
