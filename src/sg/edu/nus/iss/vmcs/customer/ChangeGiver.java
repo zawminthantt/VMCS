@@ -7,6 +7,16 @@
  */
 package sg.edu.nus.iss.vmcs.customer;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import sg.edu.nus.iss.vmcs.customer.change.DispenseChain;
+import sg.edu.nus.iss.vmcs.customer.change.DispenseChainComparator;
+import sg.edu.nus.iss.vmcs.customer.change.DispenseChainFactory;
+import sg.edu.nus.iss.vmcs.customer.change.OneDollarDispenser;
 import sg.edu.nus.iss.vmcs.store.CashStoreItem;
 import sg.edu.nus.iss.vmcs.store.Coin;
 import sg.edu.nus.iss.vmcs.store.Store;
@@ -50,32 +60,53 @@ public class ChangeGiver {
 	public boolean giveChange(int changeRequired){
 		if(changeRequired==0)
 			return true;
-		try{
+//		try{
 			int changeBal=changeRequired;
 			MainController mainCtrl=txCtrl.getMainController();
 			StoreController storeCtrl=mainCtrl.getStoreController();
 			int cashStoreSize=storeCtrl.getStoreSize(Store.CASH); 
-			for(int i=cashStoreSize-1;i>=0;i--){
-				StoreItem cashStoreItem=storeCtrl.getStore(Store.CASH).getStoreItem(i);
-				int quantity=cashStoreItem.getQuantity();
-				Coin coin=(Coin)cashStoreItem.getContent();
-				int value=coin.getValue();
-				int quantityRequired=0;
-				while(changeBal>0&&changeBal>=value&&quantity>0){
-					changeBal-=value;
-					quantityRequired++;
-					quantity--;
-				}
-				txCtrl.getMainController().getMachineryController().giveChange(i,quantityRequired);
+			
+			// impl
+			// how to construct chain
+			List<DispenseChain> allDispenseChain = new ArrayList<>();
+			for (StoreItem storeItem : storeCtrl.getStoreItems(Store.CASH)) {
+				
+				DispenseChain dispenseChain = DispenseChainFactory.createDispenseChain(storeItem);
+				
+				allDispenseChain.add(dispenseChain);
 			}
+			
+			Collections.sort(allDispenseChain, new DispenseChainComparator());
+			
+			for ( int i = 0; i < allDispenseChain.size(); i++) {
+				if (i+1 != allDispenseChain.size()) {
+					allDispenseChain.get(i).setNextChain(allDispenseChain.get(i+1));
+				}
+			}
+			
+			allDispenseChain.iterator().next().dispense(changeBal);
+			
+//			for(int i=cashStoreSize-1;i>=0;i--){
+//				StoreItem cashStoreItem=storeCtrl.getStore(Store.CASH).getStoreItem(i);
+//				int quantity=cashStoreItem.getQuantity();
+//				Coin coin=(Coin)cashStoreItem.getContent();
+//				int value=coin.getValue();
+//				int quantityRequired=0;
+//				while(changeBal>0&&changeBal>=value&&quantity>0){
+//					changeBal-=value;
+//					quantityRequired++;
+//					quantity--;
+//				}
+//				txCtrl.getMainController().getMachineryController().giveChange(i,quantityRequired);
+//			}
 			txCtrl.getCustomerPanel().setChange(changeRequired-changeBal);
 			if(changeBal>0)
 				txCtrl.getCustomerPanel().displayChangeStatus(true);
-		}
-		catch(VMCSException ex){
-			txCtrl.terminateFault();
-			return false;
-		}
+//		}
+//		catch(VMCSException ex){
+//			txCtrl.terminateFault();
+//			return false;
+//		}
 		return true;
 	}
 	
