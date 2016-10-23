@@ -10,7 +10,7 @@ import sg.edu.nus.iss.vmcs.store.StoreItem;
  */
 public class DispenserFactory {
 
-	public static AbstractDispenser createDispenseChain(StoreItem storeItem) {
+	public static AbstractDispenser createDispenser(StoreItem storeItem) {
 
 		Coin coin = (Coin) storeItem.getContent();
 

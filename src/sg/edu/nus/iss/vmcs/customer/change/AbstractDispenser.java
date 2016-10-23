@@ -10,12 +10,16 @@ import sg.edu.nus.iss.vmcs.store.StoreItem;
  */
 public abstract class AbstractDispenser {
 	
-	protected AbstractDispenser dispenseChain;
+	protected AbstractDispenser successor;
 	
-	protected StoreItem storeItem;
+	private StoreItem storeItem;
 	
-	public abstract void setNextChain(AbstractDispenser dispenseChain);
+	public abstract void setNextChain(AbstractDispenser successor);
 
+	public AbstractDispenser(StoreItem storeItem) {
+		this.storeItem = storeItem;
+	}
+	
 	public void dispense(int amountToDispenseCent) {
 		
 		Coin coin = (Coin)storeItem.getContent();
@@ -32,8 +36,8 @@ public abstract class AbstractDispenser {
 				System.out.println("Dispensing " + coinName + " X " + num);
 				
 				reminder = amountToDispenseCent % value;
-				
 				storeItem.setQuantity(storeItem.getQuantity() - num);
+				
 			} else {
 				// less coins
 				if (storeItem.getQuantity() != 0) {
@@ -46,14 +50,14 @@ public abstract class AbstractDispenser {
 			}
 			
 			if (reminder != 0) {
-				if (dispenseChain == null) {// end of chain 
+				if (successor == null) {// end of chain 
 					System.out.println("End of the Chain");
 				} else {	
-					dispenseChain.dispense(reminder);
+					successor.dispense(reminder);//
 				}
 			}
 		} else {
-			dispenseChain.dispense(amountToDispenseCent);
+			successor.dispense(amountToDispenseCent);
 		}
 	}
 
