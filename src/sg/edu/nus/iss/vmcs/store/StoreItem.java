@@ -86,7 +86,9 @@ public class StoreItem {
 		if (quantity < 0)
 			quantity = 0;
 		
-		DrinkStoreItemNotifier.shared().postQuantityChanges(quantity);
+		if (this instanceof DrinksStoreItem) {
+			DrinkStoreItemNotifier.shared().updateDrinkStoreItemChanges(this);
+		}
 	}
 
 	/**
