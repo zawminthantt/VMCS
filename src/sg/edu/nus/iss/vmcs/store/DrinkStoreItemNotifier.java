@@ -9,7 +9,7 @@ import sg.edu.nus.iss.vmcs.util.Subject;
 public class DrinkStoreItemNotifier implements Subject {
 
 	private List<Observer> observers;
-	private DrinksStoreItem drinkStoreItem;
+	private int quantity;
 	private Boolean isChanged;
 	private final Object MUTEX = new Object();
 	
@@ -27,7 +27,7 @@ public class DrinkStoreItemNotifier implements Subject {
 
 	@Override
 	public Object getUpdate() {
-		return this.drinkStoreItem;
+		return this.quantity;
 	}
 
 	@Override
@@ -70,9 +70,9 @@ public class DrinkStoreItemNotifier implements Subject {
 
 	}
 		
-	public void updateDrinkStoreItemChanges(StoreItem drinkStoreItem) {
-		System.out.println(">>> DrinkStoreItem " + drinkStoreItem);
-		this.drinkStoreItem = (DrinksStoreItem) drinkStoreItem;
+	public void updateDrinkStoreItemChanges(int quantity) {
+		System.out.println(">>> DrinkStoreItem " + quantity);
+		this.quantity = quantity;
 		this.isChanged = true;
 		this.notifyQuantityChanges();
 	}

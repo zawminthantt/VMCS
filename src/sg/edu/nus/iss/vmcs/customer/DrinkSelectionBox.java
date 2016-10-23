@@ -27,7 +27,7 @@ import sg.edu.nus.iss.vmcs.util.Observer;
  * @author Team SE16T5E
  * @version 1.0 2008-10-01
  */
-public class DrinkSelectionBox extends Panel implements Observer {
+public class DrinkSelectionBox extends Panel {
 	
 	private static final long serialVersionUID = 1L;
 	private DrinkSelectionItem drinkSelectionItems[];
@@ -63,8 +63,7 @@ public class DrinkSelectionBox extends Panel implements Observer {
 				    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
 				    new Insets(5,0,0,0),10,0));  
 		}
-		
-		DrinkStoreItemNotifier.shared().attach(this);
+
 	}
 	
 	/**
@@ -122,13 +121,6 @@ public class DrinkSelectionBox extends Panel implements Observer {
 		if(drinkSelectionItems==null||drinkSelectionItems.length==0)
 			return;
 		drinkSelectionItems[index].setItemState(active);
-	}
-
-	@Override
-	public void update() {
-		DrinksStoreItem item = (DrinksStoreItem) DrinkStoreItemNotifier.shared().getUpdate();
-		System.out.println("Updated Item >>> " + item);
-		
 	}
 	
 }//DrinkSelectionBox

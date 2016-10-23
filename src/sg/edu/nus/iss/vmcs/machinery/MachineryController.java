@@ -17,7 +17,7 @@ import sg.edu.nus.iss.vmcs.store.*;
  * @version 3.0 5/07/2003
  * @author Olivo Miotto, Pang Ping Li
  */
-public class MachineryController {
+public class MachineryController implements Observer {
 	/**This attribute reference to the MainController*/
 	public MainController mainCtrl;
 	/**This attribute reference to the StoreController*/
@@ -177,9 +177,6 @@ public class MachineryController {
 	 */
 	public void dispenseDrink(int idx) throws VMCSException {
 		storeCtrl.dispenseDrink(idx);
-		if (ml != null)
-			ml.getCashStoreDisplay().update();
-
 	}
 
 	/**
@@ -203,5 +200,13 @@ public class MachineryController {
 		if(ml!=null){
 			ml.refresh();
 		}
+	}
+
+	@Override
+	public void update() {
+		
+		if (ml != null)
+//			ml.getCashStoreDisplay().update();
+			ml.getDrinksStoreDisplay().update();
 	}
 }//End of class MachineryController
