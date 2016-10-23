@@ -9,6 +9,9 @@ package sg.edu.nus.iss.vmcs.system;
 
 import java.awt.Frame;
 import java.io.IOException;
+
+import javax.swing.JOptionPane;
+
 import sg.edu.nus.iss.vmcs.customer.CustomerPanel;
 import sg.edu.nus.iss.vmcs.customer.IdleState;
 
@@ -30,7 +33,7 @@ public class MainController {
 	private MaintenanceController maintenanceCtrl;
 	private TransactionController txCtrl;
 	private StoreController       storeCtrl;
-
+	private MyoFileLoader fileLoader;
 	private String      propertyFile;
 
 	/**
@@ -64,6 +67,18 @@ public class MainController {
 	public void initialize() throws VMCSException {
 		try {
 			Environment.initialize(propertyFile);
+			if (Environment.getDatabase().equalsIgnoreCase("MySQL") || 
+					Environment.getDatabase().equalsIgnoreCase("PostgreSQL") ||
+					Environment.getDatabase().equalsIgnoreCase("File")) {
+				fileLoader = new MyoFileLoader();
+				fileLoader.initialize(Environment.getDatabase(), propertyFile);
+			} else {
+				JOptionPane.showMessageDialog(null, 
+						"Invalid Database! "+ Environment.getDatabase() + " not supported.", 
+						"InfoBox: ", 
+						JOptionPane.INFORMATION_MESSAGE);
+				System.exit(0);
+			}
 			CashPropertyLoader cashLoader =
 				new CashPropertyLoader(Environment.getCashPropFile());
 			DrinkPropertyLoader drinksLoader =
