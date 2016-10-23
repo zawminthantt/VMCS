@@ -57,6 +57,15 @@ local.properties
 .recommenders/
 
 
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+
 ### Java ###
 *.class
 
