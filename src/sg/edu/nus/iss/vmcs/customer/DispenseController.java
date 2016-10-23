@@ -8,6 +8,7 @@
 package sg.edu.nus.iss.vmcs.customer;
 
 import sg.edu.nus.iss.vmcs.customer.termination.TerminationStrategyFactory.TerminationType;
+import sg.edu.nus.iss.vmcs.store.DrinkStoreItemNotifier;
 import sg.edu.nus.iss.vmcs.store.DrinksBrand;
 import sg.edu.nus.iss.vmcs.store.Store;
 import sg.edu.nus.iss.vmcs.store.StoreController;
@@ -36,6 +37,8 @@ public class DispenseController implements Observer {
 	 */
 	public DispenseController(TransactionController txCtrl) {
 		this.txCtrl = txCtrl;
+		
+		DrinkStoreItemNotifier.shared().attach(this);
 	}
 
 	/**
