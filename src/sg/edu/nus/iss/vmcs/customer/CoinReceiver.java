@@ -124,7 +124,7 @@ public class CoinReceiver {
 		catch(VMCSException ex){
                      
                         /* Added */
-                        txCtrl.goNextState(new TerminateFaultState(TerminationType.STORE_FAULT));/* This is for state transition. */
+                        txCtrl.goNextState(new TerminateFaultState(TerminationType.COIN_STORE_FAULT));/* This is for state transition. */
                         txCtrl.PerformTransaction();
                         
 			return false;
