@@ -5,11 +5,13 @@
  */
 package sg.edu.nus.iss.vmcs.customer;
 
+import sg.edu.nus.iss.vmcs.customer.termination.TerminationStrategyFactory.TerminationType;
+
 /**
  *
  * @author NayLA
  */
-public class CancelState implements State{
+public class CancelState extends AbstractTerminationState{
 
     Action actionPerformed;
     
@@ -20,12 +22,14 @@ public class CancelState implements State{
         
         System.out.println("Transaction is in CancelState.");
         /* Perform state-specific tasks here. */
-        System.out.println("CancelTransaction: Begin");
+        /*System.out.println("CancelTransaction: Begin");
         transactionCtrl.getCoinReceiver().stopReceive();
         transactionCtrl.getCoinReceiver().refundCash();
         transactionCtrl.getDispenseController().allowSelection(true);
         transactionCtrl.refreshMachineryDisplay();
-        System.out.println("CancelTransaction: End");
+        System.out.println("CancelTransaction: End");*/
+        setStrategy(TerminationType.CUSTOMER_ACTION);
+        terminate();
         
          /* Set this to Action.done only when state-specific tasks are done. */
         actionPerformed = Action.done;

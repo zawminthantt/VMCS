@@ -5,11 +5,15 @@
  */
 package sg.edu.nus.iss.vmcs.customer;
 
+import jdk.nashorn.internal.ir.SetSplitState;
+import sg.edu.nus.iss.vmcs.customer.termination.TerminationStrategyFactory;
+import sg.edu.nus.iss.vmcs.customer.termination.TerminationStrategyFactory.TerminationType;
+
 /**
  *
  * @author NayLA
  */
-public class TerminateFaultState implements State{
+public class TerminateFaultState extends AbstractTerminationState{
 
     Action actionPerformed;
     
@@ -21,11 +25,13 @@ public class TerminateFaultState implements State{
         System.out.println("Transaction is in TerminateState.");
         /* Perform state-specific tasks here. */
         
-        System.out.println("TerminateFault: Begin");
+        /*System.out.println("TerminateFault: Begin");
         transactionCtrl.getDispenseController().allowSelection(false);
         transactionCtrl.getCoinReceiver().refundCash();
         transactionCtrl.refreshMachineryDisplay();
-        System.out.println("TerminateFault: End");
+        System.out.println("TerminateFault: End");*/
+        setStrategy(TerminationType.DISPENSE_FAULT);	// TODO changeGiver, dispense, coinReceiver
+        terminate();
                
          /* Set this to Action.done only when state-specific tasks are done. */
         actionPerformed = Action.done;

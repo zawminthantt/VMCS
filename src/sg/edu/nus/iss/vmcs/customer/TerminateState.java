@@ -5,11 +5,13 @@
  */
 package sg.edu.nus.iss.vmcs.customer;
 
+import sg.edu.nus.iss.vmcs.customer.termination.TerminationStrategyFactory.TerminationType;
+
 /**
  *
  * @author NayLA
  */
-public class TerminateState implements State {
+public class TerminateState extends AbstractTerminationState {
 
     Action actionPerformed;
     
@@ -21,7 +23,7 @@ public class TerminateState implements State {
         System.out.println("Transaction is in TerminateState.");
         /* Perform state-specific tasks here. */
         
-        System.out.println("TerminateTransaction: Begin");
+        /*System.out.println("TerminateTransaction: Begin");
         transactionCtrl.getDispenseController().allowSelection(false);
         transactionCtrl.getCoinReceiver().stopReceive();
         transactionCtrl.getCoinReceiver().refundCash();
@@ -29,7 +31,9 @@ public class TerminateState implements State {
                 transactionCtrl.getCustomerPanel().setTerminateButtonActive(false);
         }
         transactionCtrl.refreshMachineryDisplay();
-        System.out.println("TerminateTransaction: End");
+        System.out.println("TerminateTransaction: End");*/
+        setStrategy(TerminationType.MAINTENER_ACTION);
+        terminate();
         
          /* Set this to Action.done only when state-specific tasks are done. */
         actionPerformed = Action.done;
