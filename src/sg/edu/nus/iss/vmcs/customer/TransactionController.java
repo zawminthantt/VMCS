@@ -298,6 +298,6 @@ public class TransactionController {
 	 * This method will nullify reference to customer panel.
 	 */
 	public void nullifyCustomerPanel(){
-		custPanel=null;
+		custPanel=null;               
 	}
 }//End of class TransactionController
