@@ -139,7 +139,7 @@ public class DispenseController implements Observer {
 	}
 
 	@Override
-	public void update() {
+	public void update(int quantity) {
 		MainController mainCtrl=txCtrl.getMainController();
 		StoreController storeCtrl=mainCtrl.getStoreController();
 		StoreItem drinkStoreItem=storeCtrl.getStore(Store.DRINK).getStoreItem(selectedBrand);
@@ -147,7 +147,6 @@ public class DispenseController implements Observer {
 		DrinksBrand drinksBrand=(DrinksBrand)storeObject;
 		String drinksName=drinksBrand.getName();
 		int price=drinksBrand.getPrice();
-		int quantity=drinkStoreItem.getQuantity();
 		txCtrl.getCustomerPanel().setCan(drinksName);
 		updateDrinkSelection(selectedBrand);
 		txCtrl.getCustomerPanel().getDrinkSelectionBox().update(selectedBrand, quantity, price, drinksName);
