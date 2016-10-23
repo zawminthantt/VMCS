@@ -4,10 +4,10 @@ import java.util.Comparator;
 
 import sg.edu.nus.iss.vmcs.store.Coin;
 
-public class DispenseChainComparator implements Comparator<DispenseChain> {
+public class DispenseChainComparator implements Comparator<AbstractDispenser> {
 
 	@Override
-	public int compare(DispenseChain o1, DispenseChain o2) {
+	public int compare(AbstractDispenser o1, AbstractDispenser o2) {
 		Coin coin = (Coin) o1.getStoreItem().getContent();
 		int value1 = coin.getValue();
 		
@@ -17,9 +17,9 @@ public class DispenseChainComparator implements Comparator<DispenseChain> {
 		if (value1 == value2) {
 			return 0;
 		} else if (value1 > value2) {
-			return 1;
-		} else {
 			return -1;
+		} else {
+			return 1;
 		}
 	}
 

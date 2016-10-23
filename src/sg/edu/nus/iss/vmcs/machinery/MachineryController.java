@@ -180,21 +180,7 @@ public class MachineryController {
 		if (ml != null)
 			ml.getCashStoreDisplay().update();
 
-	}
-
-	/**
-	 * This method instructs the CashStore to issue a number of coins of a specific
-	 * denomination, and hen updates the MachinerySimulatorPanel&#46; It returns 
-	 * TRUE or FALSE to indiate whether the change issue was successful.
-	 * @param idx the index of the cash store item.
-	 * @param numOfCoins the number of coins to change.
-	 * @throws VMCSException if fail to update cash store display.
-	 */
-	public void giveChange(int idx, int numOfCoins) throws VMCSException {
-		storeCtrl.giveChange(idx, numOfCoins);
-		if (ml != null)
-			ml.getCashStoreDisplay().update();
-	}
+	}	
 	
 	/**
 	 * This method refresh the MachinerySimulatorPanel.

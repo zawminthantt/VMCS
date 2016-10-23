@@ -8,12 +8,12 @@ import sg.edu.nus.iss.vmcs.store.StoreItem;
  * @author swemonaung
  *
  */
-public class TwentyCentDispenser extends DispenseChain{
+public class TwentyCentDispenser extends AbstractDispenser{
 	
-	DispenseChain dispenseChain;
+	private AbstractDispenser dispenseChain;
 
 	@Override
-	public void setNextChain(DispenseChain dispenseChain) {
+	public void setNextChain(AbstractDispenser dispenseChain) {
 		this.dispenseChain = dispenseChain;
 	}
 	
@@ -24,37 +24,37 @@ public class TwentyCentDispenser extends DispenseChain{
 	@Override
 	public void dispense(int amountToDispenseCent) {
 		
-		Coin coin = (Coin)storeItem.getContent();
+		Coin coin = (Coin) storeItem.getContent();
 		int value = coin.getValue();
-		
+		String coinName = coin.getName();
 		int reminder = 0;
 		
 		if (amountToDispenseCent >= value) {
 			int num = amountToDispenseCent / value;
 			
-			if (num >= storeItem.getQuantity()) {
+			if (storeItem.getQuantity() >= num) {
 				
-				System.out.println("Dispensing 20 Cent X " + num);
-				
+				System.out.println("Dispensing " + coinName + " X " + num);
 				reminder = amountToDispenseCent % value;
-				
 				storeItem.setQuantity(storeItem.getQuantity() - num);
 			} else {
 				// less coins
-				
-				System.out.println("Dispensing 20 Cent X " + storeItem.getQuantity());
-				
-				reminder = ( num - storeItem.getQuantity() ) * value;
-				
-				storeItem.setQuantity(0);
+				if (storeItem.getQuantity() != 0) {
+					reminder = (num - storeItem.getQuantity()) * value;
+					storeItem.setQuantity(0);
+				} else {
+					System.out.println("Insufficient quantity to refund " + storeItem.getContent());
+					reminder = amountToDispenseCent;
+				}
 			}
 			
 			if (reminder != 0) {
 				
 				if (dispenseChain == null) {// end of chain 
 					System.out.println("End of the Chain");
-				}	
-				dispenseChain.dispense(reminder);
+				} else {
+					dispenseChain.dispense(reminder);
+				}
 			}
 		} else {
 			dispenseChain.dispense(amountToDispenseCent);

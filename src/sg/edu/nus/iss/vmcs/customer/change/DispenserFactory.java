@@ -1,15 +1,27 @@
 package sg.edu.nus.iss.vmcs.customer.change;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import sg.edu.nus.iss.vmcs.store.Coin;
+import sg.edu.nus.iss.vmcs.store.Store;
 import sg.edu.nus.iss.vmcs.store.StoreItem;
 
-public class DispenseChainFactory {
+/**
+ * 
+ * @author swemon
+ *
+ */
+public class DispenserFactory {
 	
-	public static DispenseChain createDispenseChain(StoreItem storeItem) {
+	public static AbstractDispenser createDispenseChain(StoreItem storeItem) {
 		
 		Coin coin = (Coin) storeItem.getContent();
 		
-		DispenseChain dispenseChain = null;
+		AbstractDispenser dispenseChain = null;
 		switch (coin.getValue()) {
 		
 		case 5:
@@ -34,5 +46,4 @@ public class DispenseChainFactory {
 		}
 		return dispenseChain;
 	}
-
 }

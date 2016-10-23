@@ -7,11 +7,11 @@ import sg.edu.nus.iss.vmcs.store.StoreItem;
  * @author swemonaung
  *
  */
-public abstract class DispenseChain {
+public abstract class AbstractDispenser {
 	
 	protected StoreItem storeItem;
 	
-	public abstract void setNextChain(DispenseChain dispenseChain);
+	public abstract void setNextChain(AbstractDispenser dispenseChain);
 
 	public abstract void dispense(int amountToDispense);
 
