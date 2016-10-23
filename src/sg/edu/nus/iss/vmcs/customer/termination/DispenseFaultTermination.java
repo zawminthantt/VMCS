@@ -7,7 +7,7 @@ import sg.edu.nus.iss.vmcs.customer.TransactionController;
  * @author kyawminthu
  *
  */
-public class DispenseFaultTermination extends AbstractTermination {
+public class DispenseFaultTermination extends AbstractTerminationTemplate {
 
 	/**
 	 * 
