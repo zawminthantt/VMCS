@@ -65,7 +65,7 @@ public class DrinkStoreItemNotifier implements Subject {
 		}
 		
 		observersLocal.forEach((object) -> {
-			object.update();
+			object.update(this.quantity);
 		});
 
 	}

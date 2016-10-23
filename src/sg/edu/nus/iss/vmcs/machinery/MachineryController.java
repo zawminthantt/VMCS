@@ -189,7 +189,7 @@ public class MachineryController implements Observer {
 	}
 
 	@Override
-	public void update() {
+	public void update(int quantity) {
 		
 		if (ml != null)
 //			ml.getCashStoreDisplay().update();
