@@ -180,7 +180,7 @@ public class MachineryController {
 		if (ml != null)
 			ml.getCashStoreDisplay().update();
 
-	}	
+	}
 	
 	/**
 	 * This method refresh the MachinerySimulatorPanel.

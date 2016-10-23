@@ -9,6 +9,7 @@ package sg.edu.nus.iss.vmcs.customer;
 
 import java.util.ArrayList;
 
+import sg.edu.nus.iss.vmcs.customer.termination.TerminationStrategyFactory.TerminationType;
 import sg.edu.nus.iss.vmcs.machinery.MachineryController;
 import sg.edu.nus.iss.vmcs.store.CashStore;
 import sg.edu.nus.iss.vmcs.store.Coin;
@@ -89,7 +90,11 @@ public class CoinReceiver {
 			//int total=txCtrl.getCustomerPanel().addMoney(value);
 			txCtrl.getCustomerPanel().setTotalMoneyInserted(getTotalInserted());
 			txCtrl.getCustomerPanel().setChange("");
-			txCtrl.processMoneyReceived(getTotalInserted());
+			
+                     
+                        /* Added */
+                        txCtrl.setCoinReceived(getTotalInserted());
+                        txCtrl.PerformTransaction();
 		}
 	}
 
@@ -117,7 +122,11 @@ public class CoinReceiver {
 			txCtrl.getCustomerPanel().setTotalMoneyInserted(0);
 		}
 		catch(VMCSException ex){
-			txCtrl.terminateFault();
+                     
+                        /* Added */
+                        txCtrl.goNextState(new TerminateFaultState(TerminationType.COIN_STORE_FAULT));/* This is for state transition. */
+                        txCtrl.PerformTransaction();
+                        
 			return false;
 		}
 		return true;

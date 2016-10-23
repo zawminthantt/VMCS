@@ -27,7 +27,7 @@ import sg.edu.nus.iss.vmcs.util.VMCSException;
 
 /**
  * This control object manages the giving of change to the Customer.
- * @author Team SE16T5E
+ * @author Team SE16T5E.
  * @version 1.0 2008-10-01
  */
 public class ChangeGiver {

@@ -12,6 +12,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Panel;
 
+import sg.edu.nus.iss.vmcs.store.DrinkStoreItemNotifier;
 import sg.edu.nus.iss.vmcs.store.DrinksBrand;
 import sg.edu.nus.iss.vmcs.store.DrinksStoreItem;
 import sg.edu.nus.iss.vmcs.store.Store;
@@ -19,13 +20,16 @@ import sg.edu.nus.iss.vmcs.store.StoreController;
 import sg.edu.nus.iss.vmcs.store.StoreItem;
 import sg.edu.nus.iss.vmcs.store.StoreObject;
 import sg.edu.nus.iss.vmcs.system.MainController;
+import sg.edu.nus.iss.vmcs.util.Observer;
 
 /**
  * This interface object is part of the Customer Panel&#46; It is used by the Customer to select a drink.
  * @author Team SE16T5E
  * @version 1.0 2008-10-01
  */
-public class DrinkSelectionBox extends Panel{
+public class DrinkSelectionBox extends Panel implements Observer {
+	
+	private static final long serialVersionUID = 1L;
 	private DrinkSelectionItem drinkSelectionItems[];
 	private TransactionController txCtrl;
 	
@@ -59,6 +63,8 @@ public class DrinkSelectionBox extends Panel{
 				    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
 				    new Insets(5,0,0,0),10,0));  
 		}
+		
+		DrinkStoreItemNotifier.shared().attach(this);
 	}
 	
 	/**
@@ -117,6 +123,12 @@ public class DrinkSelectionBox extends Panel{
 			return;
 		drinkSelectionItems[index].setItemState(active);
 	}
-	
+
+	@Override
+	public void update() {
+		DrinksStoreItem item = (DrinksStoreItem) DrinkStoreItemNotifier.shared().getUpdate();
+		System.out.println("Updated Item >>> " + item);
+		
+	}
 	
 }//DrinkSelectionBox

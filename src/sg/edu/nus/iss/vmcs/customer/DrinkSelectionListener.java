@@ -37,7 +37,11 @@ public class DrinkSelectionListener implements ActionListener{
 		Object obj=ev.getSource();
 		Button btn=(Button)obj;
 		btn.requestFocus();
-		txCtrl.startTransaction(drinkIdentifier);
+           
+                /* Added */
+                txCtrl.setDrinkIdentifier(drinkIdentifier);
+                txCtrl.PerformTransaction();
+                
 		btn.setBackground(Color.yellow);
 	}
 }//End of class DrinkSelectionListener

@@ -7,6 +7,7 @@
  */
 package sg.edu.nus.iss.vmcs.customer;
 
+import sg.edu.nus.iss.vmcs.customer.termination.TerminationStrategyFactory.TerminationType;
 import sg.edu.nus.iss.vmcs.store.DrinksBrand;
 import sg.edu.nus.iss.vmcs.store.Store;
 import sg.edu.nus.iss.vmcs.store.StoreController;
@@ -121,7 +122,11 @@ public class DispenseController {
 			txCtrl.getCustomerPanel().getDrinkSelectionBox().update(selectedBrand, quantity, price, drinksName);
 		}
 		catch(VMCSException ex){
-			txCtrl.terminateFault();
+
+                        /* Added */
+                        txCtrl.goNextState(new TerminateFaultState(TerminationType.DISPENSE_FAULT));/* This is for state transition. */
+                        txCtrl.PerformTransaction();
+                        
 			return false;
 		}
 		return true;

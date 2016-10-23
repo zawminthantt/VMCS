@@ -7,6 +7,9 @@
  */
 package sg.edu.nus.iss.vmcs.system;
 
+import java.awt.Frame;
+import sg.edu.nus.iss.vmcs.customer.CustomerPanel;
+import sg.edu.nus.iss.vmcs.customer.IdleState;
 import sg.edu.nus.iss.vmcs.customer.TransactionController;
 import sg.edu.nus.iss.vmcs.machinery.MachineryController;
 import sg.edu.nus.iss.vmcs.maintenance.MaintenanceController;
@@ -154,7 +157,15 @@ public class SimulationController {
 		TransactionController cctrl;
 		cctrl = mCtrl.getTransactionController();
 		scp.setActive(SimulatorControlPanel.ACT_CUSTOMER, false);
-		cctrl.displayCustomerPanel();
+
+               
+                /* Added */
+                SimulatorControlPanel scp = cctrl.getMainController().getSimulatorControlPanel();                                            
+                cctrl.setCustomerPanel(new CustomerPanel((Frame) scp, cctrl));               
+                cctrl.goNextState(new IdleState());/* This is for state transition. */
+                
+                /* Start triggering Customer Panel after system startup. */
+                cctrl.PerformTransaction();
 	}
 
 	/**
