@@ -1,23 +1,19 @@
 #
-#Fri Oct 21 00:04:18 SGT 2016
-Name5=$1
+#Sun Oct 23 21:00:02 SGT 2016
+Weight4=33.0
 Name4=50C
+Weight3=11.2
 Name3=20C
 Name2=10C
-Name1=5C
-Value5=100
+Weight2=21.1
+Name1=$1
+Weight1=11.0
+NumOfItems=4
+Quantity4=10
 Value4=50
-NumOfItems=5
+Quantity3=30
 Value3=20
+Quantity2=19
+Quantity1=23
 Value2=10
-Value1=5
-Quantity5=66
-Quantity4=113
-Quantity3=37
-Quantity2=25
-Quantity1=8
-Weight5=42.2
-Weight4=35.0
-Weight3=18.5
-Weight2=10.9
-Weight1=7.1
+Value1=100
