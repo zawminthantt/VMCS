@@ -5,7 +5,7 @@ package sg.edu.nus.iss.vmcs.customer.termination;
  * @author kyawminthu
  *
  */
-public class CoinStoreFaultTermination extends AbstractTermination {
+public class CoinStoreFaultTermination extends AbstractTerminationTemplate {
 
 	/**
 	 * 

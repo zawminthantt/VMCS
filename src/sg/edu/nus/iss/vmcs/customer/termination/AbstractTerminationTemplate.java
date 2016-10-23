@@ -7,7 +7,7 @@ import sg.edu.nus.iss.vmcs.customer.TransactionController;
  * @author kyawminthu
  *
  */
-public abstract class AbstractTermination implements TerminationStrategy {
+public abstract class AbstractTerminationTemplate implements TerminationStrategy {
 	/**
 	 * 
 	 */

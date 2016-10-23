@@ -8,7 +8,7 @@ import sg.edu.nus.iss.vmcs.customer.TransactionController;
  * @author kyawminthu
  *
  */
-public class MaintenerLoginTermination extends AbstractTermination {
+public class MaintenerLoginTermination extends AbstractTerminationTemplate {
 
 	/**
 	 * 
