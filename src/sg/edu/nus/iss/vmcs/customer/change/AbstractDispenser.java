@@ -2,6 +2,7 @@ package sg.edu.nus.iss.vmcs.customer.change;
 
 import sg.edu.nus.iss.vmcs.store.Coin;
 import sg.edu.nus.iss.vmcs.store.StoreItem;
+import sg.edu.nus.iss.vmcs.util.InsufficientChangeException;
 import sg.edu.nus.iss.vmcs.util.VMCSException;
 
 /**
@@ -21,7 +22,7 @@ public abstract class AbstractDispenser {
 		this.storeItem = storeItem;
 	}
 	
-	public void dispense(int amountToDispenseCent) throws VMCSException {
+	public void dispense(int amountToDispenseCent) throws InsufficientChangeException {
 		
 		Coin coin = (Coin)storeItem.getContent();
 		int value = coin.getValue();
@@ -53,7 +54,7 @@ public abstract class AbstractDispenser {
 			if (reminder != 0) {
 				if (successor == null) {// end of chain 
 					System.out.println("End of the Chain");
-					throw new VMCSException("Insufficient Change");
+					throw new InsufficientChangeException(reminder);
 				} else {	
 					successor.dispense(reminder);//
 				}

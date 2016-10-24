@@ -23,6 +23,7 @@ import sg.edu.nus.iss.vmcs.store.Store;
 import sg.edu.nus.iss.vmcs.store.StoreController;
 import sg.edu.nus.iss.vmcs.store.StoreItem;
 import sg.edu.nus.iss.vmcs.system.MainController;
+import sg.edu.nus.iss.vmcs.util.InsufficientChangeException;
 import sg.edu.nus.iss.vmcs.util.VMCSException;
 
 /**
@@ -68,16 +69,20 @@ public class ChangeGiver {
 		
 		dispenserChain = createDispenserChain(storeCtrl.getStoreItems(Store.CASH));
 		
+                // Reset
+                txCtrl.getCustomerPanel().displayChangeStatus(false);
+                
 		if (dispenserChain != null) {
 			try {
 				dispenserChain.dispense(changeRequired);
-				txCtrl.getCustomerPanel().setChange(changeRequired);
-			} catch (VMCSException e) {
+                                txCtrl.getCustomerPanel().setChange(changeRequired);
+			} catch (InsufficientChangeException e) {
 				txCtrl.getCustomerPanel().displayChangeStatus(true);
+                                txCtrl.getCustomerPanel().setChange(changeRequired - e.getAmountDue());
 			}
 		}
 			
-		return true;
+    		return true;
 	}
 	
 	public AbstractDispenser createDispenserChain(StoreItem[] storeItems) {
@@ -105,20 +110,20 @@ public class ChangeGiver {
 	 * Available Display depending on the current change availability.
 	 */
 	public void displayChangeStatus(){
-		CustomerPanel custPanel=txCtrl.getCustomerPanel();
-		if(custPanel==null)
-			return;
-		boolean isAnyDenoEmpty=false;
-		MainController mainCtrl=txCtrl.getMainController();
-		StoreController storeCtrl=mainCtrl.getStoreController();
-		StoreItem[] cashStoreItems=storeCtrl.getStore(Store.CASH).getItems();
-		for(int i=0;i<cashStoreItems.length;i++){
-			StoreItem storeItem=cashStoreItems[i];
-			CashStoreItem cashStoreItem=(CashStoreItem)storeItem;
-			int quantity=cashStoreItem.getQuantity();
-			if(quantity==0)
-				isAnyDenoEmpty=true;
-		}
-		custPanel.displayChangeStatus(isAnyDenoEmpty);
+//		CustomerPanel custPanel=txCtrl.getCustomerPanel();
+//		if(custPanel==null)
+//			return;
+//		boolean isAnyDenoEmpty=false;
+//		MainController mainCtrl=txCtrl.getMainController();
+//		StoreController storeCtrl=mainCtrl.getStoreController();
+//		StoreItem[] cashStoreItems=storeCtrl.getStore(Store.CASH).getItems();
+//		for(int i=0;i<cashStoreItems.length;i++){
+//			StoreItem storeItem=cashStoreItems[i];
+//			CashStoreItem cashStoreItem=(CashStoreItem)storeItem;
+//			int quantity=cashStoreItem.getQuantity();
+//			if(quantity==0)
+//				isAnyDenoEmpty=true;
+//		}
+//		custPanel.displayChangeStatus(isAnyDenoEmpty);
 	}
 }//End of class ChangeGiver

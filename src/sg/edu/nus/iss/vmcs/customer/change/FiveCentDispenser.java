@@ -1,7 +1,7 @@
 package sg.edu.nus.iss.vmcs.customer.change;
 
 import sg.edu.nus.iss.vmcs.store.StoreItem;
-import sg.edu.nus.iss.vmcs.util.VMCSException;
+import sg.edu.nus.iss.vmcs.util.InsufficientChangeException;
 
 /**
  * 
@@ -19,7 +19,7 @@ public class FiveCentDispenser extends AbstractDispenser{
 		super(storeItem);
 	}	
 	
-	public void dispense(int amountToDispenseCent) throws VMCSException {
+	public void dispense(int amountToDispenseCent) throws InsufficientChangeException {
 		System.out.println("Handling from " + this.getClass());
 		
 		super.dispense(amountToDispenseCent);
