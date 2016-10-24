@@ -1,5 +1,5 @@
 package sg.edu.nus.iss.vmcs.system;
 
-public interface MyoDataLoader {
+public interface AdptDataLoader {
 	public void initialize(String type, String fileName);
 }

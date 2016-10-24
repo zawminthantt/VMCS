@@ -1,6 +1,6 @@
 package sg.edu.nus.iss.vmcs.system;
 
-public class MyoPostgreSQLLoader implements MyoAdvancedDataLoader {
+public class AdptPostgreSQLLoader implements AdptAdvancedDataLoader {
 
 	@Override
 	public void loadMySQL(String fileName) {

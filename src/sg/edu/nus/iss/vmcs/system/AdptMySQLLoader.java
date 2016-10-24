@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
-public class MyoMySQLLoader implements MyoAdvancedDataLoader {
+public class AdptMySQLLoader implements AdptAdvancedDataLoader {
 
 	@Override
 	public void loadMySQL(String fileName) {

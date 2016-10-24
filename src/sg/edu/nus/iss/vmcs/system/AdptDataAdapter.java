@@ -1,17 +1,17 @@
 package sg.edu.nus.iss.vmcs.system;
 
-public class MyoDataAdapter implements MyoDataLoader {
+public class AdptDataAdapter implements AdptDataLoader {
 
-	MyoAdvancedDataLoader advancedDataLoader;
+	AdptAdvancedDataLoader advancedDataLoader;
 	
 	/**
 	 * @param type
 	 */
-	public MyoDataAdapter(String type) {
+	public AdptDataAdapter(String type) {
 		if (type.equalsIgnoreCase("MySQL")){
-			advancedDataLoader = new MyoMySQLLoader();
+			advancedDataLoader = new AdptMySQLLoader();
 		} else if (type.equalsIgnoreCase("PostgreSQL")) {
-			advancedDataLoader = new MyoPostgreSQLLoader();
+			advancedDataLoader = new AdptPostgreSQLLoader();
 		}
 	}
 	

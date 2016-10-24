@@ -1,5 +1,5 @@
 #
-#Sun Oct 23 16:32:03 SGT 2016
+#Mon Oct 24 13:40:17 SGT 2016
 Name7=Green Tea
 Name6=Soya Bean
 Name5=Coca-Cola
@@ -15,7 +15,7 @@ Quantity4=87
 Quantity3=108
 Quantity2=106
 Price7=30
-Quantity1=107
+Quantity1=106
 Price6=90
 Price5=100
 Price4=90

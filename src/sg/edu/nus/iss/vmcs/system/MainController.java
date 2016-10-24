@@ -33,7 +33,7 @@ public class MainController {
 	private MaintenanceController maintenanceCtrl;
 	private TransactionController txCtrl;
 	private StoreController       storeCtrl;
-	private MyoFileLoader fileLoader;
+	private AdptFileLoader fileLoader;
 	private String      propertyFile;
 
 	/**
@@ -70,7 +70,7 @@ public class MainController {
 			if (Environment.getDatabase().equalsIgnoreCase("MySQL") || 
 					Environment.getDatabase().equalsIgnoreCase("PostgreSQL") ||
 					Environment.getDatabase().equalsIgnoreCase("File")) {
-				fileLoader = new MyoFileLoader();
+				fileLoader = new AdptFileLoader();
 				fileLoader.initialize(Environment.getDatabase(), propertyFile);
 			} else {
 				JOptionPane.showMessageDialog(null, 
