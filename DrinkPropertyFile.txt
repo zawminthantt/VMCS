@@ -1,9 +1,24 @@
 #
-#Sun Oct 23 21:00:02 SGT 2016
-Quantity1=5
-Price2=90
-Name2=GreenTea
-Price1=70
-Name1=CocaCola
-NumOfItems=2
-Quantity2=2
+#Sun Oct 23 16:32:03 SGT 2016
+Name7=Green Tea
+Name6=Soya Bean
+Name5=Coca-Cola
+Name4=Soya Bean
+Name3=Sarsi
+Name2=Fanta
+Name1=Coca-Cola
+NumOfItems=7
+Quantity7=161
+Quantity6=110
+Quantity5=105
+Quantity4=87
+Quantity3=108
+Quantity2=106
+Price7=30
+Quantity1=107
+Price6=90
+Price5=100
+Price4=90
+Price3=50
+Price2=65
+Price1=100
