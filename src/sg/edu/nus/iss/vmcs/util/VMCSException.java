@@ -20,6 +20,10 @@ public class VMCSException extends Exception {
 	 */
 	public VMCSException() {
 	}
+	
+	public VMCSException(String str) {
+		super(str);
+	}
 
 	/**
 	 * This constructor creates an instance of VMCSException.

@@ -69,13 +69,14 @@ public class ChangeGiver {
 		dispenserChain = createDispenserChain(storeCtrl.getStoreItems(Store.CASH));
 		
 		if (dispenserChain != null) {
-			dispenserChain.dispense(changeRequired);
+			try {
+				dispenserChain.dispense(changeRequired);
+				txCtrl.getCustomerPanel().setChange(changeRequired);
+			} catch (VMCSException e) {
+				txCtrl.getCustomerPanel().displayChangeStatus(true);
+			}
 		}
-		
-		txCtrl.getCustomerPanel().setChange(changeRequired);
-		if (changeRequired > 0) {
-			txCtrl.getCustomerPanel().displayChangeStatus(true);
-		}	
+			
 		return true;
 	}
 	
